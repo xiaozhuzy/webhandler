@@ -1,0 +1,3 @@
+<webhandler>
+	<bean type="com.huasheng.webhandler.execute.ActionProxyFactory" name="prefix" class="com.huasheng.webhandler.execute.ActionProxyFactory" />
+</webhandler>

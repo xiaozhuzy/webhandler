@@ -1,0 +1,14 @@
+<webhandler>
+    <bean type="com.huasheng.business.action.UserAction" name="userAction" class="com.huasheng.business.action.UserAction" />
+    
+    <package name="user" namespace="/user">
+        <action name="userAction" class="com.huasheng.business.action.UserAction">
+            <result name="success">/success.jsp</result>
+        </action>
+        
+        <action name="userAction2" class="com.huasheng.business.action.UserAction2">
+            <result name="error">/error.jsp</result>
+        </action>
+    </package>
+
+</webhandler>
