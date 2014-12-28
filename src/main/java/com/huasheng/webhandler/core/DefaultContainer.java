@@ -2,11 +2,21 @@
 
 import java.util.Map;
 
-
+/**
+ * 容器默认的实现
+ * @desc:
+ * @title:DefaultContainer.java
+ * @author:huasheng
+ * @version:1.0
+ */
 public class DefaultContainer implements Container {
 	
 	final Map<Key<?>, InternalFactory<?>> factories;
 	
+	/**
+	 * 将containerBuilder收集的的factory保存到map中
+	 * @param factories
+	 */
 	DefaultContainer(Map<Key<?>, InternalFactory<?>> factories ) {
 		this.factories = factories;
 	}

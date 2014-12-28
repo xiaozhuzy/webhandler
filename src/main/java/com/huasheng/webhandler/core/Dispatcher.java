@@ -11,6 +11,13 @@ import com.huasheng.webhandler.execute.ActionMapping;
 import com.huasheng.webhandler.provider.ConfigurationProvider;
 import com.huasheng.webhandler.provider.impl.XmlConfigurationProvider;
 
+/**
+ * 核心分发类
+ * @desc:
+ * @title:Dispatcher.java
+ * @author:huasheng
+ * @version:1.0
+ */
 public class Dispatcher {
 
 	private static ThreadLocal<Dispatcher> instance = new ThreadLocal<Dispatcher>();
