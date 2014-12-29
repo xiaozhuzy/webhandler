@@ -13,6 +13,10 @@ public class PrepareOperations {
 		this.dispatcher = dispatcher;
 	}
 	
+	public void assignDispatcherToThread() {
+        Dispatcher.setInstance(dispatcher);
+    }
+	
 	public ActionMapping findActionMapping(HttpServletRequest request, HttpServletResponse response) {
 
         return null;

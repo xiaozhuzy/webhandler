@@ -10,12 +10,25 @@ import java.io.Serializable;
  */
 public interface Container extends Serializable {
 
-	void inject(Object o);
-
-	<T> T inject(Class<T> implementation);
-
+	/**
+	 * 将对象注入到容器中
+	 * @param t
+	 */
+	<T> void inject(T t);
+	
+	<T> void inject(Class<T> clazz);
+	
+	<T> void inject(String name ,Class<T> clazz);
+	
+	<T> void inject(Class<T> clazz,InternalFactory<?> factory);
+	
+	/**
+	 * 从webhandler容器中获取到对象
+	 * @param type
+	 * @return
+	 */
 	<T> T getInstance(Class<T> type);
 	
 	<T> T getInstance(Class<T> type, String name);
-
+	
 }

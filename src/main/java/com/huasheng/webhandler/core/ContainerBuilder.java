@@ -10,17 +10,47 @@ public final class ContainerBuilder {
 	/**
 	 * 将factory对象存放于容器中
 	 */
+	public <T> ContainerBuilder factory(final Class<T> type) {
+		
+		String name = type.getSimpleName();
+		
+		factory(type, name);
+		
+		return this;
+	}
+	
+	public <T> ContainerBuilder factory(final Class<T> type, final String name) {
+		
+		Scope scope = Scope.SINGLETON ;
+		
+		factory(type, name, scope);
+		
+		return this;
+	}
+	
 	public <T> ContainerBuilder factory(final Class<T> type, final String name,
 			Scope scope) {
 		
-		Key<T> key = Key.newInstance(type,name);
 		final InternalFactory<? extends T> scopedFactory = scope.scopeFactory(type, name);
-		factories.put(key, scopedFactory);
+		
+		factory(type, name, scope, scopedFactory);
+		
+		return this;
+	}
+	
+	
+	public <T> ContainerBuilder factory(final Class<T> type, final String name,
+			Scope scope,InternalFactory<? extends T> factory) {
+		
+		Key<T> key = Key.newInstance(type,name);
+		
+		factories.put(key, factory);
+		
 		return this;
 	}
 	
 	/**
-	 * 创建container容器对象
+	 * 创建container容器对象	
 	 * @return
 	 */
 	public Container create() {

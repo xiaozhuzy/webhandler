@@ -55,6 +55,8 @@ public class MainFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
 		
+		
+		prepare.assignDispatcherToThread();
 		//根据请求的url返回对应的actionmapping对象
 		ActionMapping mapping = prepare.findActionMapping(request, response);
 		if (mapping == null) {

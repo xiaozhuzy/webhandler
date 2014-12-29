@@ -11,6 +11,10 @@ import java.util.Map;
  */
 public class DefaultContainer implements Container {
 	
+	private static final long serialVersionUID = -8293268128139630926L;
+	/**
+	 * 存放factory的map
+	 */
 	final Map<Key<?>, InternalFactory<?>> factories;
 	
 	/**
@@ -22,31 +26,61 @@ public class DefaultContainer implements Container {
 	}
 
 	@Override
-	public void inject(Object o) {
-		// TODO Auto-generated method stub
+	public <T> void inject(T t) {
 
+		Class<?> clazz = t.getClass();
+		
+		this.inject(clazz);
 	}
 
 	@Override
-	public <T> T inject(Class<T> implementation) {
-		// TODO Auto-generated method stub
-		return null;
+	public <T> void inject(Class<T> clazz) {
+		
+		String name = clazz.getSimpleName();
+		
+		this.inject(name,clazz);
+		
 	}
-
-	@Override
-	public <T> T getInstance(Class<T> type) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public <T> T getInstance(Class<T> type, String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	
-	<T> InternalFactory<? extends T> getFactory( Key<T> key ) {
-		return (InternalFactory<T>) factories.get(key);
+	@Override
+	public <T> void inject(String name,Class<T> clazz) {
+		
+		Scope scope = Scope.SINGLETON;
+		
+		final InternalFactory<?> scopedFactory = scope.scopeFactory(clazz,name);
+		
+		this.inject(clazz, scopedFactory);
+		
+		
 	}
+	
+	@Override
+	public <T> void inject(Class<T> clazz,InternalFactory<?> factory){
+		
+		Key<T> key = Key.newInstance(clazz, clazz.getSimpleName());
+		
+		factories.put(key,factory);
+	}
+
+	@Override
+	public <T> T getInstance(Class<T> clazz) {
+		
+		String name = clazz.getSimpleName();  
+		
+		return this.getInstance(clazz, name);
+		
+	}
+
+	@Override
+	public <T> T getInstance(Class<T> clazz, String name) {
+		
+		Key<T> key = Key.newInstance(clazz, name);
+		
+		InternalFactory<?> factory = factories.get(key);
+		
+		T t = (T)factory.create();
+		
+		return t;
+	}
+	
 }

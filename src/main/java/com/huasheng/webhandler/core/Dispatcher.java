@@ -35,22 +35,36 @@ public class Dispatcher {
 	public Dispatcher(Map<String, String> params) {
 		this.initParams = params;
 	}
+	
+	public static Dispatcher getInstance() {
+        return instance.get();
+    }
 
+    public static void setInstance(Dispatcher instance) {
+        Dispatcher.instance.set(instance);
+    }
+	
 	/**
 	 * 初始化Dispatcher对象
 	 */
 	public void init() {
 
-		// 初始化configurationManager对象
-		if (configurationManager == null) {
-			configurationManager = createConfigurationManager();
+		Container container = ContainerHolder.get();
+		
+		if(container == null) {
+			// 初始化configurationManager对象
+			if (configurationManager == null) {
+				configurationManager = createConfigurationManager();
+			}
+
+			// 初始化解析xml的provider
+			initXmlConfigurations();
+
+			// 加载容器对象
+			container = getContainer();
+			ContainerHolder.store(container);
 		}
-
-		// 初始化解析xml的provider
-		initXmlConfigurations();
-
-		// 加载容器对象
-		Container container = getContainer();
+		
 
 	}
 
@@ -95,7 +109,7 @@ public class Dispatcher {
 	private ConfigurationManager createConfigurationManager() {
 		return new ConfigurationManager();
 	}
-
+	
 	public void serviceAction(HttpServletRequest request,
 			HttpServletResponse response, ActionMapping actionMapping) {
 
